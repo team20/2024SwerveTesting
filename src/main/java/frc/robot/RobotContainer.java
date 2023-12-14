@@ -6,15 +6,23 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer {
-  public RobotContainer() {
-    configureBindings();
-  }
+	private final CommandGenericHID m_driverController = new CommandGenericHID(0);
+	private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  private void configureBindings() {}
+	public RobotContainer() {
+		configureBindings();
+	}
 
-  public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
-  }
+	private void configureBindings() {
+		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.driveCommand(() -> m_driverController.getRawAxis(0),
+				() -> m_driverController.getRawAxis(0), () -> m_driverController.getRawAxis(0)));
+	}
+
+	public Command getAutonomousCommand() {
+		return Commands.print("No autonomous command configured");
+	}
 }
