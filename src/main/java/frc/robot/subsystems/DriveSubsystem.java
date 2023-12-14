@@ -10,20 +10,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-	private final SwerveModule m_frontLeft = new SwerveModule(kFrontLeftSteerID, kFrontLeftSteerID,
+	private final SwerveModule m_frontLeft = new SwerveModule(kFrontLeftSteerID, kFrontLeftDriveID,
 			kFrontLeftSteerOffsetDegrees, kFrontLeftSteerInvert);
-	private final SwerveModule m_frontRight = new SwerveModule(kFrontRightSteerID, kFrontRightSteerID,
-			kFrontRightSteerID, kFrontRightSteerInvert);
-	private final SwerveModule m_backLeft = new SwerveModule(kBackLeftSteerID, kBackLeftSteerID, kBackLeftSteerID,
-			kBackLeftSteerInvert);
-	private final SwerveModule m_backRight = new SwerveModule(kBackRightSteerID, kBackRightSteerID, kBackRightSteerID,
-			kBackRightSteerInvert);
+	private final SwerveModule m_frontRight = new SwerveModule(kFrontRightSteerID, kFrontRightDriveID,
+			kFrontRightSteerOffsetDegrees, kFrontRightSteerInvert);
+	private final SwerveModule m_backLeft = new SwerveModule(kBackLeftSteerID, kBackLeftDriveID,
+			kBackLeftSteerOffsetDegrees, kBackLeftSteerInvert);
+	private final SwerveModule m_backRight = new SwerveModule(kBackRightSteerID, kBackRightDriveID,
+			kBackRightSteerOffsetDegrees, kBackRightSteerInvert);
 	private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(kFrontLeftOffsetMeters,
 			kFrontRightOffsetMeters, kBackLeftOffsetMeters, kBackRightOffsetMeters);
-
-	public DriveSubsystem() {
-		super();
-	}
 
 	public void drive(ChassisSpeeds speeds) {
 		ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, kModuleResponseTimeSeconds);
