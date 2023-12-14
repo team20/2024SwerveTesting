@@ -104,7 +104,8 @@ Temporary Items
 .apdisk
 
 ### VisualStudioCode ###
-.vscode/*.code-snippets
+.vscode/*
+!.vscode/*.code-snippets
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json

@@ -1,0 +1,79 @@
+{
+	"CANSparkMax": {
+		"prefix": "m_CANSparkMax",
+		"body": "private final CANSparkMax m_${1:Motor} = new CANSparkMax(${2:Constants}, MotorType.kBrushless);",
+		"description": ""
+	},
+	"Encoder": {
+		"prefix": "m_encoder",
+		"body": "private final RelativeEncoder m_${1:Encoder} = m_${2:Motor}.getEncoder();",
+		"description": ""
+	},
+	"CANSparkMaxConfig": {
+		"prefix": [
+			"ConfigCANSparkMax",
+			"MotorConfig"
+		],
+		"body": [
+			"m_${1:motor}.restoreFactoryDefaults();",
+			"m_${1:motor}.setInverted(${2:Constants.}kInvert);",
+			"m_${1:motor}.setIdleMode(IdleMode.kBrake);",
+			"m_${1:motor}.enableVoltageCompensation(12);",
+			"m_${1:motor}.setSmartCurrentLimit(${2:Constants.}kSmartCurrentLimit);"
+		],
+		"description": "Motor configuration"
+	},
+	"PIDController": {
+		"prefix": "m_PIDController",
+		"body": "private final SparkMaxPIDController m_${1:motor}Controller = m_${1:motor}.getPIDController();",
+		"description": "PIDController"
+	},
+	"PIDConfig": {
+		"prefix": [
+			"PIDConfig",
+			"ConfigPID"
+		],
+		"body": [
+			"m_${1:Controller}.setP(${2:Constants.}kP);",
+			"m_${1:Controller}.setI(${2:Constants.}kI);",
+			"m_${1:Controller}.setIZone(${2:Constants.}kIz);",
+			"m_${1:Controller}.setD(${2:Constants.}kD);",
+			"m_${1:Controller}.setPositionPIDWrappingEnabled(true);",
+			"m_${1:Controller}.setPositionPIDWrappingMinInput(0);",
+			"m_${1:Controller}.setPositionPIDWrappingMaxInput(360);"
+		],
+		"description": "PID configuration"
+	},
+	"Singleton": {
+		"prefix": [
+			"Singleton",
+			"singleton"
+		],
+		"body": [
+			"// Singleton",
+			"if (s_subsystem != null) {",
+			"\ttry {",
+			"\t\tthrow new Exception(getName() + \" already initialized!\");",
+			"\t} catch (Exception e) {",
+			"\t\te.printStackTrace();",
+			"\t}",
+			"s_subsystem = null;"
+		],
+		"description": "Singleton"
+	},
+	"SmartDashboard": {
+		"prefix": "putNumber",
+		"body": "SmartDashboard.putNumber(${1:},${2:});",
+		"description": "SmartDashboard"
+	},
+	"Constants": {
+		"prefix": "const",
+		"body": "public static final ${1:double} k${2:} = ${3:0};",
+		"description": "Constants"
+	},
+	"Cap to 360": {
+		"prefix": "cap_to_360",
+		"body": "MathUtil.inputModulus(${1:}, 0, 360);",
+		"description": "Cap to 360"
+	}
+}
