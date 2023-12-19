@@ -5,15 +5,15 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class LBoardConstants extends DriveBaseConstants {
 	public LBoardConstants() {
 
-		kFrontLeftDriveID = 8;
-		kBackLeftDriveID = 1;
-		kFrontRightDriveID = 2;
-		kBackRightDriveID = 3;
+		kFrontLeftDriveID = 1;
+		kBackLeftDriveID = 7;
+		kFrontRightDriveID = 3;
+		kBackRightDriveID = 5;
 
-		kFrontLeftSteerID = 4;
-		kBackLeftSteerID = 5;
-		kFrontRightSteerID = 6;
-		kBackRightSteerID = 7;
+		kFrontLeftSteerID = 2;
+		kBackLeftSteerID = 8;
+		kFrontRightSteerID = 4;
+		kBackRightSteerID = 6;
 
 		kFrontLeftModuleOffsetDegrees = 0;
 		kBackLeftModuleOffsetDegrees = 0;

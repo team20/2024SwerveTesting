@@ -1,31 +1,26 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
-import com.revrobotics.SparkMaxPIDController;
-
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveModule {
 	private final CANSparkMax m_steer;
 	private final CANSparkMax m_drive;
-	private final AbsoluteEncoder m_steerEncoder;
-	private final SparkMaxPIDController m_steerController;
+	private final CANcoder m_encoder;
+	private final PIDController m_steerController;
 
-	public SwerveModule(int steerMotorID, int driveMotorID, double angleOffset, boolean steerInvert) {
-		super();
+	public SwerveModule(int steerMotorID, int driveMotorID, double angleOffset, boolean steerInvert, int encoderID) {
 		m_steer = new CANSparkMax(steerMotorID, MotorType.kBrushless);
 		m_drive = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-		m_steerEncoder = m_steer.getAbsoluteEncoder(Type.kDutyCycle);
-		m_steerEncoder.setZeroOffset(angleOffset);
-		m_steerController = m_steer.getPIDController();
+		m_encoder = new CANcoder(encoderID);
+		m_steerController = new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
+
 		m_steer.restoreFactoryDefaults();
 		m_steer.setInverted(steerInvert);
 		m_steer.setIdleMode(IdleMode.kCoast);
@@ -37,13 +32,7 @@ public class SwerveModule {
 		m_drive.setIdleMode(IdleMode.kBrake);
 		m_drive.enableVoltageCompensation(12);
 		m_drive.setSmartCurrentLimit(DriveConstants.kSmartCurrentLimit);
-		m_steerController.setP(DriveConstants.kP);
-		m_steerController.setI(DriveConstants.kI);
-		m_steerController.setIZone(DriveConstants.kIz);
-		m_steerController.setD(DriveConstants.kD);
-		m_steerController.setPositionPIDWrappingEnabled(true);
-		m_steerController.setPositionPIDWrappingMinInput(0);
-		m_steerController.setPositionPIDWrappingMaxInput(360);
+		m_steerController.enableContinuousInput(0, 360);
 	}
 
 	/**
@@ -61,7 +50,18 @@ public class SwerveModule {
 	 * @param degrees The target angle
 	 */
 	public void setModuleAngle(double degrees) {
-		m_steerController.setReference(degrees, ControlType.kPosition);
+		m_steerController.setSetpoint(degrees);
+		m_steer.set(
+				m_steerController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble()));
+	}
+
+	/**
+	 * Commands the steer motor to go to the specified angle.
+	 * 
+	 * @param degrees The target angle
+	 */
+	public double getModuleAngle() {
+		return m_encoder.getAbsolutePosition().getValueAsDouble();
 	}
 
 	public void drive(SwerveModuleState state) {
