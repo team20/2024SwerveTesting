@@ -23,10 +23,10 @@ public abstract class DriveBaseConstants {
 	public double kFRModuleOffsetRotations;
 	public double kBRModuleOffsetRotations;
 
-	public Translation2d kFLModuleOffset;
-	public Translation2d kBLModuleOffset;
-	public Translation2d kFRModuleOffset;
-	public Translation2d kBRModuleOffset;
+	public Translation2d kFLModulePosition;
+	public Translation2d kBLModulePosition;
+	public Translation2d kFRModulePosition;
+	public Translation2d kBRModulePosition;
 
 	public boolean kFLSteerInvert = false;
 	public boolean kBLSteerInvert = false;

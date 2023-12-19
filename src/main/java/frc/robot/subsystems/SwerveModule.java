@@ -16,8 +16,7 @@ public class SwerveModule {
 	private final CANcoder m_encoder;
 	private final PIDController m_steerController;
 
-	public SwerveModule(int steerMotorID, int driveMotorID, double angleOffset, boolean steerInvert, int encoderID,
-			double offset) {
+	public SwerveModule(int steerMotorID, int driveMotorID, double angleOffset, boolean steerInvert, int encoderID) {
 		m_steer = new CANSparkMax(steerMotorID, MotorType.kBrushless);
 		m_drive = new CANSparkMax(driveMotorID, MotorType.kBrushless);
 		m_encoder = new CANcoder(encoderID);
@@ -35,7 +34,7 @@ public class SwerveModule {
 		m_drive.enableVoltageCompensation(12);
 		m_drive.setSmartCurrentLimit(DriveConstants.kSmartCurrentLimit);
 		m_steerController.enableContinuousInput(0, 360);
-		m_encoder.getConfigurator().apply(new MagnetSensorConfigs().withMagnetOffset(offset));
+		m_encoder.getConfigurator().apply(new MagnetSensorConfigs().withMagnetOffset(angleOffset));
 	}
 
 	/**

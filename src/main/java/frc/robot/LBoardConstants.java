@@ -20,13 +20,13 @@ public class LBoardConstants extends DriveBaseConstants {
 		kBREncoderID = 11;
 
 		kFLModuleOffsetRotations = -0.139648;
-		kBLModuleOffsetRotations = 0;
-		kFRModuleOffsetRotations = 0;
-		kBRModuleOffsetRotations = 0;
+		kFRModuleOffsetRotations = -0.336182;
+		kBLModuleOffsetRotations = 0.262451;
+		kBRModuleOffsetRotations = -0.376709;
 
-		kFLModuleOffset = new Translation2d(0, 0);
-		kBLModuleOffset = new Translation2d(0, 0);
-		kFRModuleOffset = new Translation2d(0, 0);
-		kBRModuleOffset = new Translation2d(0, 0);
+		kFLModulePosition = new Translation2d(0, 0);
+		kBLModulePosition = new Translation2d(0, 0);
+		kFRModulePosition = new Translation2d(0, 0);
+		kBRModulePosition = new Translation2d(0, 0);
 	}
 }
