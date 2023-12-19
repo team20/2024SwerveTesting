@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-
 public final class Constants {
 	public static final DriveBaseConstants DriveBase = new LBoardConstants();
 
@@ -50,37 +48,6 @@ public final class Constants {
 	}
 
 	public static final class DriveConstants {
-		public static final int kFrontLeftSteerID = DriveBase.kFLSteerID;
-		public static final boolean kFrontLeftSteerInvert = DriveBase.kFrontLeftSteerInvert;
-		public static final double kFrontLeftSteerOffsetDegrees = DriveBase.kFLModuleOffsetDegrees;
-		public static final Translation2d kFrontLeftOffsetMeters = DriveBase.kFLModuleOffset;
-
-		public static final int kFrontRightSteerID = DriveBase.kFRSteerID;
-		public static final boolean kFrontRightSteerInvert = DriveBase.kFrontRightSteerInvert;
-		public static final double kFrontRightSteerOffsetDegrees = DriveBase.kFRModuleOffsetDegrees;
-		public static final Translation2d kFrontRightOffsetMeters = DriveBase.kFRModuleOffset;
-
-		public static final int kBackLeftSteerID = DriveBase.kBLSteerID;
-		public static final boolean kBackLeftSteerInvert = DriveBase.kBackLeftSteerInvert;
-		public static final double kBackLeftSteerOffsetDegrees = DriveBase.kBLModuleOffsetDegrees;
-		public static final Translation2d kBackLeftOffsetMeters = DriveBase.kBLModuleOffset;
-
-		public static final int kBackRightSteerID = DriveBase.kBRSteerID;
-		public static final boolean kBackRightSteerInvert = DriveBase.kBackRightSteerInvert;
-		public static final double kBackRightSteerOffsetDegrees = DriveBase.kBRModuleOffsetDegrees;
-		public static final Translation2d kBackRightOffsetMeters = DriveBase.kBRModuleOffset;
-
-		public static final int kFrontLeftEncoderID = DriveBase.kFLEncoderID;
-		public static final int kBackLeftEncoderID = DriveBase.kBLEncoderID;
-		public static final int kFrontRightEncoderID = DriveBase.kFREncoderID;
-		public static final int kBackRightEncoderID = DriveBase.kBREncoderID;
-
-		public static final int kFrontLeftDriveID = DriveBase.kFLDriveID;
-		public static final int kFrontRightDriveID = DriveBase.kFRDriveID;
-
-		public static final int kBackLeftDriveID = DriveBase.kBLDriveID;
-		public static final int kBackRightDriveID = DriveBase.kBRDriveID;
-
 		public static final double kModuleResponseTimeSeconds = 0.20;
 		// TODO re-evaluate current limits
 		public static final int kSmartCurrentLimit = 55;

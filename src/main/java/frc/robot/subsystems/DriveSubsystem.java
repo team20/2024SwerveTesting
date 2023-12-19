@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.DriveConstants.*;
 
 import java.util.function.Supplier;
 
@@ -9,6 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -62,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
 		m_pose = m_pose.plus(transform);
 		m_heading = m_pose.getRotation();
 		m_posePublisher.set(m_pose);
-		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds, kBackLeftOffsetMeters);
+		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds, new Translation2d());
 		SwerveDriveKinematics.desaturateWheelSpeeds(states, 1);
 		m_frontLeft.drive(states[0]);
 		m_frontRight.drive(states[1]);
