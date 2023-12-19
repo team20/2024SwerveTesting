@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.DriveConstants.*;
+import static frc.robot.Constants.*;
 
 import java.util.function.Supplier;
 
@@ -20,16 +20,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-	private final SwerveModule m_frontLeft = new SwerveModule(kFrontLeftSteerID, kFrontLeftDriveID,
-			kFrontLeftSteerOffsetDegrees, kFrontLeftSteerInvert, 11);
-	private final SwerveModule m_frontRight = new SwerveModule(kFrontRightSteerID, kFrontRightDriveID,
-			kFrontRightSteerOffsetDegrees, kFrontRightSteerInvert, 12);
-	private final SwerveModule m_backLeft = new SwerveModule(kBackLeftSteerID, kBackLeftDriveID,
-			kBackLeftSteerOffsetDegrees, kBackLeftSteerInvert, 14);
-	private final SwerveModule m_backRight = new SwerveModule(kBackRightSteerID, kBackRightDriveID,
-			kBackRightSteerOffsetDegrees, kBackRightSteerInvert, 13);
-	private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(kFrontLeftOffsetMeters,
-			kFrontRightOffsetMeters, kBackLeftOffsetMeters, kBackRightOffsetMeters);
+	private final SwerveModule m_frontLeft = new SwerveModule(DriveBase.kFLSteerID, DriveBase.kFLDriveID,
+			DriveBase.kFLModuleOffsetRotations, DriveBase.kFLSteerInvert, DriveBase.kFLEncoderID, -0.139648);
+
+	private final SwerveModule m_frontRight = new SwerveModule(DriveBase.kFRSteerID, DriveBase.kFRDriveID,
+			DriveBase.kFRModuleOffsetRotations, DriveBase.kFRSteerInvert, DriveBase.kFREncoderID, -0.336182);
+
+	private final SwerveModule m_backLeft = new SwerveModule(DriveBase.kBLSteerID, DriveBase.kBLDriveID,
+			DriveBase.kBLModuleOffsetRotations, DriveBase.kBLSteerInvert, DriveBase.kBREncoderID, 0.262451);
+
+	private final SwerveModule m_backRight = new SwerveModule(DriveBase.kBRSteerID, DriveBase.kBRDriveID,
+			DriveBase.kBRModuleOffsetRotations, DriveBase.kBRSteerInvert, DriveBase.kBLEncoderID, -0.376709);
+
+	private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(DriveBase.kFLModuleOffset,
+			DriveBase.kFRModuleOffset, DriveBase.kBLModuleOffset, DriveBase.kBRModuleOffset);
 	private final AHRS m_gyro = new AHRS();
 
 	private Pose2d m_pose = new Pose2d(0, 0, new Rotation2d(Math.PI / 2));

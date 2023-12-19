@@ -3,33 +3,38 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public abstract class DriveBaseConstants {
-	public int kFrontLeftDriveID;
-	public int kBackLeftDriveID;
-	public int kFrontRightDriveID;
-	public int kBackRightDriveID;
+	public int kFLDriveID;
+	public int kBLDriveID;
+	public int kFRDriveID;
+	public int kBRDriveID;
 
-	public int kFrontLeftSteerID;
-	public int kBackLeftSteerID;
-	public int kFrontRightSteerID;
-	public int kBackRightSteerID;
+	public int kFLSteerID;
+	public int kBLSteerID;
+	public int kFRSteerID;
+	public int kBRSteerID;
 
-	public double kFrontLeftModuleOffsetDegrees;
-	public double kBackLeftModuleOffsetDegrees;
-	public double kFrontRightModuleOffsetDegrees;
-	public double kBackRightModuleOffsetDegrees;
+	public int kFLEncoderID;
+	public int kBLEncoderID;
+	public int kFREncoderID;
+	public int kBREncoderID;
 
-	public Translation2d kFrontLeftModuleOffset;
-	public Translation2d kBackLeftModuleOffset;
-	public Translation2d kFrontRightModuleOffset;
-	public Translation2d kBackRightModuleOffset;
+	public double kFLModuleOffsetRotations;
+	public double kBLModuleOffsetRotations;
+	public double kFRModuleOffsetRotations;
+	public double kBRModuleOffsetRotations;
 
-	public boolean kFrontLeftSteerInvert = false;
-	public boolean kBackLeftSteerInvert = false;
-	public boolean kFrontRightSteerInvert = false;
-	public boolean kBackRightSteerInvert = false;
+	public Translation2d kFLModuleOffset;
+	public Translation2d kBLModuleOffset;
+	public Translation2d kFRModuleOffset;
+	public Translation2d kBRModuleOffset;
 
-	public boolean kFrontLeftDriveInvert = false;
-	public boolean kBackLeftDriveInvert = false;
-	public boolean kFrontRightDriveInvert = false;
-	public boolean kBackRightDriveInvert = false;
+	public boolean kFLSteerInvert = false;
+	public boolean kBLSteerInvert = false;
+	public boolean kFRSteerInvert = false;
+	public boolean kBRSteerInvert = false;
+
+	public boolean kFLDriveInvert = false;
+	public boolean kBLDriveInvert = false;
+	public boolean kFRDriveInvert = false;
+	public boolean kBRDriveInvert = false;
 }
