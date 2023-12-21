@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -76,8 +77,9 @@ public class DriveSubsystem extends SubsystemBase {
 	public Command driveCommand(Supplier<Double> forwardSpeed, Supplier<Double> strafeSpeed,
 			Supplier<Double> rotationSpeed) {
 		return run(() -> {
-			ChassisSpeeds speeds = new ChassisSpeeds(forwardSpeed.get() * 0.5, strafeSpeed.get() * 0.5,
-					rotationSpeed.get());
+			ChassisSpeeds speeds = new ChassisSpeeds(MathUtil.applyDeadband(forwardSpeed.get(), 0.05) * 0.5,
+					MathUtil.applyDeadband(strafeSpeed.get(), 0.05) * 0.5,
+					MathUtil.applyDeadband(rotationSpeed.get(), 0.05));
 			drive(speeds);
 		});
 	}

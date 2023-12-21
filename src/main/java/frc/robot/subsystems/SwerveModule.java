@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants;
@@ -52,9 +53,7 @@ public class SwerveModule {
 	 * @param degrees The target angle
 	 */
 	public void setModuleAngle(double degrees) {
-		m_steerController.setSetpoint(degrees);
-		m_steer.set(
-				m_steerController.calculate(m_encoder.getAbsolutePosition().getValueAsDouble()));
+		m_steer.set(MathUtil.clamp(m_steerController.calculate(getModuleAngle(), degrees), -0.5, 0.5));
 	}
 
 	/**
@@ -63,7 +62,7 @@ public class SwerveModule {
 	 * @param degrees The target angle
 	 */
 	public double getModuleAngle() {
-		return m_encoder.getAbsolutePosition().getValueAsDouble();
+		return m_encoder.getAbsolutePosition().getValueAsDouble() * 360;
 	}
 
 	public void drive(SwerveModuleState state) {
