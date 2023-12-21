@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import frc.robot.Constants.ControllerConstants.Button;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class RobotContainer {
@@ -20,6 +21,7 @@ public class RobotContainer {
 	private void configureBindings() {
 		m_driveSubsystem.setDefaultCommand(m_driveSubsystem.driveCommand(() -> m_driverController.getRawAxis(0),
 				() -> -m_driverController.getRawAxis(1), () -> m_driverController.getRawAxis(2)));
+		m_driverController.button(Button.kSquare).onTrue(m_driveSubsystem.alignToZeroCommand());
 	}
 
 	public Command getAutonomousCommand() {

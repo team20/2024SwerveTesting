@@ -74,6 +74,15 @@ public class DriveSubsystem extends SubsystemBase {
 		m_field.setRobotPose(m_pose);
 	}
 
+	public Command alignToZeroCommand() {
+		return runOnce(() -> {
+			m_frontLeft.setModuleAngle(0);
+			m_frontRight.setModuleAngle(0);
+			m_backLeft.setModuleAngle(0);
+			m_backRight.setModuleAngle(0);
+		});
+	}
+
 	public Command driveCommand(Supplier<Double> forwardSpeed, Supplier<Double> strafeSpeed,
 			Supplier<Double> rotationSpeed) {
 		return run(() -> {
