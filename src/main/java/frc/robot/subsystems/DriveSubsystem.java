@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.ProtobufPublisher;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,19 +45,34 @@ public class DriveSubsystem extends SubsystemBase {
 	private ProtobufPublisher<Pose2d> m_posePublisher;
 	private final Field2d m_field = new Field2d();
 
+	private StructArrayPublisher<SwerveModuleState> m_targetModuleStatePublisher;
+	private StructArrayPublisher<SwerveModuleState> m_currentModuleStatePublisher;
+
 	public DriveSubsystem() {
 		SmartDashboard.putData("Field", m_field);
 		m_gyro.zeroYaw();
-		m_posePublisher = NetworkTableInstance.getDefault().getProtobufTopic("Pose", Pose2d.proto).publish();
+		m_posePublisher = NetworkTableInstance.getDefault().getProtobufTopic("/SmartDashboard/Pose", Pose2d.proto)
+				.publish();
+		m_targetModuleStatePublisher = NetworkTableInstance.getDefault()
+				.getStructArrayTopic("/SmartDashboard/Target Swerve Modules States", SwerveModuleState.struct)
+				.publish();
+		m_currentModuleStatePublisher = NetworkTableInstance.getDefault()
+				.getStructArrayTopic("/SmartDashboard/Current Swerve Modules States", SwerveModuleState.struct)
+				.publish();
 	}
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Angle", m_frontLeft.getModuleAngle());
+		SwerveModuleState[] states = {
+				new SwerveModuleState(m_frontLeft.getSpeed(), Rotation2d.fromDegrees(m_frontLeft.getModuleAngle())),
+				new SwerveModuleState(m_frontRight.getSpeed(), Rotation2d.fromDegrees(m_frontRight.getModuleAngle())),
+				new SwerveModuleState(m_backLeft.getSpeed(), Rotation2d.fromDegrees(m_backLeft.getModuleAngle())),
+				new SwerveModuleState(m_backRight.getSpeed(), Rotation2d.fromDegrees(m_backRight.getModuleAngle())) };
+		m_currentModuleStatePublisher.set(states);
 	}
 
 	public void drive(ChassisSpeeds speeds) {
-		speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, m_heading);
+		speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, m_gyro.getRotation2d());
 		speeds = ChassisSpeeds.discretize(speeds, kModuleResponseTimeSeconds);
 		var transform = new Transform2d(speeds.vxMetersPerSecond * kModuleResponseTimeSeconds,
 				speeds.vyMetersPerSecond * kModuleResponseTimeSeconds, new Rotation2d(
@@ -65,8 +81,11 @@ public class DriveSubsystem extends SubsystemBase {
 		m_pose = m_pose.plus(transform);
 		m_heading = m_pose.getRotation();
 		m_posePublisher.set(m_pose);
+		SmartDashboard.putNumber("Heading", m_heading.getRadians());
+
 		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds, new Translation2d());
 		SwerveDriveKinematics.desaturateWheelSpeeds(states, 1);
+		m_targetModuleStatePublisher.set(states);
 		m_frontLeft.drive(states[0]);
 		m_frontRight.drive(states[1]);
 		m_backLeft.drive(states[2]);
@@ -80,7 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
 			m_frontRight.setModuleAngle(0);
 			m_backLeft.setModuleAngle(0);
 			m_backRight.setModuleAngle(0);
-		});
+		}).until(() -> m_frontLeft.atSetpoint() && m_frontRight.atSetpoint() && m_backLeft.atSetpoint()
+				&& m_backRight.atSetpoint());
 	}
 
 	public Command driveCommand(Supplier<Double> forwardSpeed, Supplier<Double> strafeSpeed,

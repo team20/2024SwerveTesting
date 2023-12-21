@@ -35,6 +35,8 @@ public class SwerveModule {
 		m_drive.enableVoltageCompensation(12);
 		m_drive.setSmartCurrentLimit(DriveConstants.kSmartCurrentLimit);
 		m_steerController.enableContinuousInput(0, 360);
+		// 5 degrees of error
+		m_steerController.setTolerance(5);
 		m_encoder.getConfigurator().apply(new MagnetSensorConfigs().withMagnetOffset(angleOffset));
 	}
 
@@ -63,6 +65,14 @@ public class SwerveModule {
 	 */
 	public double getModuleAngle() {
 		return m_encoder.getAbsolutePosition().getValueAsDouble() * 360;
+	}
+
+	public boolean atSetpoint() {
+		return m_steerController.atSetpoint();
+	}
+
+	public double getSpeed() {
+		return m_drive.getAppliedOutput();
 	}
 
 	public void drive(SwerveModuleState state) {
