@@ -75,7 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	public Command alignToZeroCommand() {
-		return runOnce(() -> {
+		return run(() -> {
 			m_frontLeft.setModuleAngle(0);
 			m_frontRight.setModuleAngle(0);
 			m_backLeft.setModuleAngle(0);
