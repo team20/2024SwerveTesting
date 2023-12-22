@@ -71,8 +71,12 @@ public class SwerveModule {
 		return m_steerController.atSetpoint();
 	}
 
-	public double getSpeed() {
+	public double getDriveSpeed() {
 		return m_drive.getAppliedOutput();
+	}
+
+	public double getSteerSpeed() {
+		return m_steer.getAppliedOutput();
 	}
 
 	public void drive(SwerveModuleState state) {

@@ -64,11 +64,18 @@ public class DriveSubsystem extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SwerveModuleState[] states = {
-				new SwerveModuleState(m_frontLeft.getSpeed(), Rotation2d.fromDegrees(m_frontLeft.getModuleAngle())),
-				new SwerveModuleState(m_frontRight.getSpeed(), Rotation2d.fromDegrees(m_frontRight.getModuleAngle())),
-				new SwerveModuleState(m_backLeft.getSpeed(), Rotation2d.fromDegrees(m_backLeft.getModuleAngle())),
-				new SwerveModuleState(m_backRight.getSpeed(), Rotation2d.fromDegrees(m_backRight.getModuleAngle())) };
+				new SwerveModuleState(m_frontLeft.getDriveSpeed(),
+						Rotation2d.fromDegrees(m_frontLeft.getModuleAngle())),
+				new SwerveModuleState(m_frontRight.getDriveSpeed(),
+						Rotation2d.fromDegrees(m_frontRight.getModuleAngle())),
+				new SwerveModuleState(m_backLeft.getDriveSpeed(), Rotation2d.fromDegrees(m_backLeft.getModuleAngle())),
+				new SwerveModuleState(m_backRight.getDriveSpeed(),
+						Rotation2d.fromDegrees(m_backRight.getModuleAngle())) };
 		m_currentModuleStatePublisher.set(states);
+		SmartDashboard.putNumber("FL/Steer Speed", m_frontLeft.getSteerSpeed());
+		SmartDashboard.putNumber("FR/Steer Speed", m_frontRight.getSteerSpeed());
+		SmartDashboard.putNumber("BL/Steer Speed", m_backLeft.getSteerSpeed());
+		SmartDashboard.putNumber("BR/Steer Speed", m_backRight.getSteerSpeed());
 	}
 
 	public void drive(ChassisSpeeds speeds) {
