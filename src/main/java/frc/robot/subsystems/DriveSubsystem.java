@@ -78,9 +78,9 @@ public class DriveSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("BR/Steer Speed", m_backRight.getSteerSpeed());
 	}
 
-	public void drive(ChassisSpeeds speeds) {
-		speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, m_gyro.getRotation2d());
-		speeds = ChassisSpeeds.discretize(speeds, kModuleResponseTimeSeconds);
+	public SwerveModuleState[] drive(ChassisSpeeds speeds, boolean fieldCentric) {
+		// speeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, new Rotation2d());
+		// speeds = ChassisSpeeds.discretize(speeds, kModuleResponseTimeSeconds);
 		var transform = new Transform2d(speeds.vxMetersPerSecond * kModuleResponseTimeSeconds,
 				speeds.vyMetersPerSecond * kModuleResponseTimeSeconds, new Rotation2d(
 						speeds.omegaRadiansPerSecond * kModuleResponseTimeSeconds));
@@ -88,16 +88,13 @@ public class DriveSubsystem extends SubsystemBase {
 		m_pose = m_pose.plus(transform);
 		m_heading = m_pose.getRotation();
 		m_posePublisher.set(m_pose);
-		SmartDashboard.putNumber("Heading", m_heading.getRadians());
+		SmartDashboard.putNumber("Heading", m_gyro.getRotation2d().getRadians());
 
-		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds, new Translation2d());
+		SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds);
 		SwerveDriveKinematics.desaturateWheelSpeeds(states, 1);
 		m_targetModuleStatePublisher.set(states);
-		m_frontLeft.drive(states[0]);
-		m_frontRight.drive(states[1]);
-		m_backLeft.drive(states[2]);
-		m_backRight.drive(states[3]);
 		m_field.setRobotPose(m_pose);
+		return states;
 	}
 
 	public Command alignToZeroCommand() {
@@ -116,7 +113,11 @@ public class DriveSubsystem extends SubsystemBase {
 			ChassisSpeeds speeds = new ChassisSpeeds(MathUtil.applyDeadband(forwardSpeed.get(), 0.05) * 0.5,
 					MathUtil.applyDeadband(strafeSpeed.get(), 0.05) * 0.5,
 					MathUtil.applyDeadband(rotationSpeed.get(), 0.05));
-			drive(speeds);
+			var states = drive(speeds, false);
+			m_frontLeft.drive(states[0]);
+			m_frontRight.drive(states[1]);
+			m_backLeft.drive(states[2]);
+			m_backRight.drive(states[3]);
 		});
 	}
 }
